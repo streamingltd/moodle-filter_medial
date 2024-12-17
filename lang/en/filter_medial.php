@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for filter_emoticon
+ * Strings for filter_medial
  *
  * @package    filter
  * @subpackage medial
