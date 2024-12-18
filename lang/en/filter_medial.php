@@ -26,6 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['filtername'] = 'Converts MEDIAL links into embedded videos';
+$string['pluginname'] = 'MEDIAL filter';
+$string['privacy:metadata'] = 'The MEDIAL plugin does not store any personal data.';
 $string['settingformats'] = 'Apply to formats';
 $string['settingformats_desc'] = 'The filter will be applied only if the original text was inserted in one of the selected formats.';
-$string['privacy:metadata'] = 'The MEDIAL plugin does not store any personal data.';
