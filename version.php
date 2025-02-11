@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information
+ * Version information for the MEDIAL filter plugin
  *
- * @package    filter
+ * @package    filter_medial
  * @subpackage medial
  * @copyright  2020 MEDIAL
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,15 +25,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2024120901;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version   = 2024120903;        // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2022112800;        // Requires this Moodle version.
 $plugin->component = 'filter_medial'; // Full name of the plugin (used for diagnostics).
 
 $plugin->maturity  = MATURITY_STABLE;
 // Human readable version information.
-$plugin->release   = '8.5.19e';
+$plugin->release   = '8.5.19f';
 
-$plugin->dependencies = array(
-    'mod_helixmedia' => '2024120901'
-);
+$plugin->dependencies = [
+    'mod_helixmedia' => '2024120903',
+];
 $plugin->supported = [401, 405];

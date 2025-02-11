@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -14,5 +13,18 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Filter converting medial texts into images
+ *
+ * This filter uses the medial settings in Site admin > Appearance > HTML settings
+ * and replaces medial texts with images.
+ *
+ * @package    filter_medial
+ * @subpackage medial
+ * @see        medial_manager
+ * @copyright  2010 David Mudrak <david@moodle.com>, 2020 MEDIAL Tim Williams <tim@medial.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 class_alias(\filter_medial\text_filter::class, \filter_medial::class);

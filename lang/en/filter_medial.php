@@ -17,7 +17,7 @@
 /**
  * Strings for filter_medial
  *
- * @package    filter
+ * @package    filter_medial
  * @subpackage medial
  * @copyright  2020 MEDIAL
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,6 +26,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['filtername'] = 'Converts MEDIAL links into embedded videos';
+$string['privacy:metadata'] = 'The MEDIAL plugin does not store any personal data.';
 $string['settingformats'] = 'Apply to formats';
 $string['settingformats_desc'] = 'The filter will be applied only if the original text was inserted in one of the selected formats.';
-$string['privacy:metadata'] = 'The MEDIAL plugin does not store any personal data.';

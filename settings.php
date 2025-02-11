@@ -15,7 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    filter
+ * Settings for the MEDIAL filter pluigin
+ * @package    filter_medial
  * @subpackage medial
  * @copyright  2020 MEDIAL
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -28,5 +29,5 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configmulticheckbox('filter_medial/formats',
             get_string('settingformats', 'filter_medial'),
             get_string('settingformats_desc', 'filter_medial'),
-            array(FORMAT_HTML => 1, FORMAT_MARKDOWN => 1, FORMAT_MOODLE => 1), format_text_menu()));
+            [FORMAT_HTML => 1, FORMAT_MARKDOWN => 1, FORMAT_MOODLE => 1], format_text_menu()));
 }
