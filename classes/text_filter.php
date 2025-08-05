@@ -81,7 +81,7 @@ class text_filter extends \moodle_text_filter {
      * @return string the modified result
      */
     protected function replace_medials($text) {
-        global $CFG, $OUTPUT, $PAGE;
+        global $CFG, $OUTPUT, $PAGE, $COURSE;
         // Detect all zones that we should not handle (including the nested tags).
         $processing = preg_split('/(<[^>]*>)/i', $text, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 
@@ -207,9 +207,28 @@ class text_filter extends \moodle_text_filter {
                 if ($ppp) {
                     $fragment = str_replace('{{{medial_launch_base}}}', $CFG->wwwroot, $fragment);
                 }
+
+                $pl = strpos($fragment, "/mod/helixmedia/launch.php?");
+                if ($pl) {
+                    $fragment = substr($fragment, 0, $pl + 27) . "course=".$COURSE->id."&amp;". substr($fragment, $pl + 27);
+                }
+
+                // Deal with bootstrap 4 style classes if this is Moodle 5.
+                if (helixmedia_is_moodle_5() && strpos($fragment, 'embed-responsive')) {
+                     $fragment = str_replace('embed-responsive-item', '', $fragment);
+                }
+            } else if (strpos($fragment, 'helixmedia_embedheight') !== false) {
+                // Deal with bootstrap 4 style classes if this is Moodle 5.
+                if (helixmedia_is_moodle_5() && strpos($fragment, 'embed-responsive')) {
+                     $fragment = str_replace('embed-responsive-16by9', 'ratio-16x9', $fragment);
+                     $fragment = str_replace('embed-responsive', 'ratio', $fragment);
+                }
             }
             $resulthtml .= $fragment;
         }
+
         return $resulthtml;
     }
+
+
 }
