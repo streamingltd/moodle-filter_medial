@@ -25,9 +25,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
-
-    $settings->add(new admin_setting_configmulticheckbox('filter_medial/formats',
-            get_string('settingformats', 'filter_medial'),
-            get_string('settingformats_desc', 'filter_medial'),
-            [FORMAT_HTML => 1, FORMAT_MARKDOWN => 1, FORMAT_MOODLE => 1], format_text_menu()));
+    $settings->add(new admin_setting_configmulticheckbox(
+        'filter_medial/formats',
+        get_string('settingformats', 'filter_medial'),
+        get_string('settingformats_desc', 'filter_medial'),
+        [FORMAT_HTML => 1, FORMAT_MARKDOWN => 1, FORMAT_MOODLE => 1],
+        format_text_menu()
+    ));
 }

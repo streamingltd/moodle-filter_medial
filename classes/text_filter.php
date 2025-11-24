@@ -30,13 +30,12 @@ namespace filter_medial;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/helixmedia/locallib.php');
+require_once($CFG->dirroot . '/mod/helixmedia/locallib.php');
 
 /**
  * MEDIAL filter, this will activate MEDIAL links and replace placeholder text in HTML text areas.
  */
 class text_filter extends \moodle_text_filter {
-
     /**
      * Internal cache used for replacing. Multidimensional array;
      * - dimension 1: language,
@@ -95,7 +94,6 @@ class text_filter extends \moodle_text_filter {
 
         // Loop through the fragments.
         foreach ($processing as $idx => $fragment) {
-
             // If we are not ignoring, we MUST test if we should.
             if ($exclude == 0) {
                 foreach ($excludepattern as $exp) {
@@ -117,7 +115,7 @@ class text_filter extends \moodle_text_filter {
                 // This is the meat of the code - this is run every time.
                 // This code only runs for fragments that are not ignored (including the tags themselves).
 
-                $pattern = $CFG->wwwroot."/mod/helixmedia/launch.php";
+                $pattern = $CFG->wwwroot . "/mod/helixmedia/launch.php";
                 $pp = strpos($fragment, $pattern);
                 $patternplace = "{{{medial_launch_base}}}/mod/helixmedia/launch.php";
                 $ppp = strpos($fragment, $patternplace);
@@ -141,26 +139,20 @@ class text_filter extends \moodle_text_filter {
                             $url = str_replace('%7B%7B%7Bmedial_launch_base%7D%7D%7D', $CFG->wwwroot, $url);
                         }
                     }
-                    $lid = substr($fragment, $lp + 7, $ep - ($lp + 7));
 
-                    $types = strpos($fragment, "type=");
-                    $type = strpos($fragment, "&", $types + 5);
-                    $type = substr($fragment, $types + 5, $type - ($types + 5));
+                    $query = parse_url(html_entity_decode($url), PHP_URL_QUERY);
+                    parse_str($query, $output);
 
-                    // Find the embed type if there is one.
-                    $ets = strpos($fragment, "medialembed=");
-                    if ($ets !== false) {
-                        $ete = strpos($fragment, "&", $ets + 12);
-                        $embedtype = substr($fragment, $ets + 12, $ete - ($ets + 12));
+                    $lid = $output['l'];
+                    $type = $output['type'];
+                    if (array_key_exists('medialembed', $output)) {
+                        $embedtype = $output['medialembed'];
                     } else {
-                        $embedtype = "iframe";
+                        $embedtype = 'iframe';
                     }
 
-                    // Find the audioonly attribute if there is one.
-                    $aos = strpos($fragment, "audioonly=");
-                    if ($aos !== false) {
-                        $aoe = strpos($fragment, "&", $aos + 10);
-                        $audioonly = substr($fragment, $aos + 10, $aoe - ($aos + 10));
+                    if (array_key_exists('audioonly', $output)) {
+                        $audioonly = $output['audioonly'];
                     } else {
                         $audioonly = 0;
                     }
@@ -174,29 +166,53 @@ class text_filter extends \moodle_text_filter {
                             break;
                         case "link":
                             $params = ['type' => $type, 'l' => $lid];
-                            $disp = new \mod_helixmedia\output\modal($lid, [], $params, false,
-                                $processing[$idx + 1], false, false);
+                            $disp = new \mod_helixmedia\output\modal(
+                                $lid,
+                                [],
+                                $params,
+                                false,
+                                $processing[$idx + 1],
+                                false,
+                                false
+                            );
                             $fragment = $output->render($disp);
                             $skip = 2;
                             break;
                         case 'thumbnail':
                             $thumbparams = ['type' => HML_LAUNCH_THUMBNAILS, 'l' => $lid];
                             $params = ['type' => $type, 'l' => $lid];
-                            $disp = new \mod_helixmedia\output\modal($lid, $thumbparams, $params, "magnifier",
-                                $processing[$idx + 1], false, false);
+                            $disp = new \mod_helixmedia\output\modal(
+                                $lid,
+                                $thumbparams,
+                                $params,
+                                "magnifier",
+                                $processing[$idx + 1],
+                                false,
+                                false
+                            );
                             $fragment = $output->render($disp);
                             $skip = 2;
                             break;
                         case 'library':
                             $params = ['type' => $type, 'l' => $lid];
-                            $disp = new \mod_helixmedia\output\modal($lid, [], $params, false,
-                                $processing[$idx + 1], false, false, 'row', false, true);
+                            $disp = new \mod_helixmedia\output\modal(
+                                $lid,
+                                [],
+                                $params,
+                                false,
+                                $processing[$idx + 1],
+                                false,
+                                false,
+                                'row',
+                                false,
+                                true
+                            );
                             $fragment = $output->render($disp);
                             $skip = 2;
                             break;
                         default:
                             if ($ppp) {
-                                $fragment = "<a href='".$url."' target='_blank'>";
+                                $fragment = "<a href='" . $url . "' target='_blank'>";
                             }
                             break;
                     }
@@ -210,7 +226,7 @@ class text_filter extends \moodle_text_filter {
 
                 $pl = strpos($fragment, "/mod/helixmedia/launch.php?");
                 if ($pl) {
-                    $fragment = substr($fragment, 0, $pl + 27) . "course=".$COURSE->id."&amp;". substr($fragment, $pl + 27);
+                    $fragment = substr($fragment, 0, $pl + 27) . "course=" . $COURSE->id . "&amp;" . substr($fragment, $pl + 27);
                 }
 
                 // Deal with bootstrap 4 style classes if this is Moodle 5.
@@ -229,6 +245,4 @@ class text_filter extends \moodle_text_filter {
 
         return $resulthtml;
     }
-
-
 }
