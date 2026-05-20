@@ -25,15 +25,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2025112401;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2022112800;        // Requires this Moodle version.
+$plugin->version   = 2026052002;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->requires  = 2024100700;        // Requires this Moodle version.
 $plugin->component = 'filter_medial'; // Full name of the plugin (used for diagnostics).
 
 $plugin->maturity  = MATURITY_STABLE;
 // Human readable version information.
-$plugin->release   = 'v9.0.003i';
+$plugin->release   = '9.1.000';
 
 $plugin->dependencies = [
-    'mod_helixmedia' => '2025112401',
+    'mod_helixmedia' => '2026052002',
 ];
-$plugin->supported = [401, 500];
+$plugin->supported = [405, 505];

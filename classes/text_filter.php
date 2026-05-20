@@ -127,6 +127,9 @@ class text_filter extends \moodle_text_filter {
 
                 if ($pp !== false || $ppp !== false || $pppp != false) {
                     $lp = strpos($fragment, "&amp;l=");
+                    if ($lp === false) {
+                        $lp = strpos($fragment, "?data=");
+                    }
                     $ep = strpos($fragment, "\"", $lp);
                     if ($pp) {
                         $url = substr($fragment, $pp, $ep - $pp);
@@ -135,24 +138,32 @@ class text_filter extends \moodle_text_filter {
                             $url = substr($fragment, $ppp, $ep - $ppp);
                             $url = str_replace('{{{medial_launch_base}}}', $CFG->wwwroot, $url);
                         } else {
-                            $url = substr($fragment, $pppp, $ep - $ppp);
+                            $url = substr($fragment, $pppp, $ep - $pppp);
                             $url = str_replace('%7B%7B%7Bmedial_launch_base%7D%7D%7D', $CFG->wwwroot, $url);
                         }
                     }
 
                     $query = parse_url(html_entity_decode($url), PHP_URL_QUERY);
                     parse_str($query, $output);
+                    if (array_key_exists('data', $output)) {
+                        $output = (array) helixmedia_decode_ldata($output['data']);
+                    }
 
-                    $lid = $output['l'];
-                    $type = $output['type'];
+                    if (array_key_exists('error', $output)) {
+                         $resulthtml .= $output['error'];
+                         continue;
+                    }
+
+                    $lid = clean_param($output['l'], PARAM_INT);
+                    $type = clean_param($output['type'], PARAM_INT);
                     if (array_key_exists('medialembed', $output)) {
-                        $embedtype = $output['medialembed'];
+                        $embedtype = clean_param($output['medialembed'], PARAM_TEXT);
                     } else {
                         $embedtype = 'iframe';
                     }
 
                     if (array_key_exists('audioonly', $output)) {
-                        $audioonly = $output['audioonly'];
+                        $audioonly = clean_param($output['audioonly'], PARAM_INT);
                     } else {
                         $audioonly = 0;
                     }
